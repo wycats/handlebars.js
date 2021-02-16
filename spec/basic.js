@@ -395,6 +395,14 @@ describe('basic context', function() {
       .toCompileTo('Goodbye beautiful world!');
   });
 
+  it('nested paths with Map', function() {
+    var map = new Map();
+    map.set('expression', 'beautiful');
+    expectTemplate('Goodbye {{foo/expression}} world!')
+      .withInput({ foo: map })
+      .toCompileTo('Goodbye beautiful world!');
+  });
+
   it('nested paths with empty string value', function() {
     expectTemplate('Goodbye {{alan/expression}} world!')
       .withInput({ alan: { expression: '' } })

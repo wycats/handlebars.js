@@ -546,6 +546,27 @@ describe('builtin helpers', function() {
           .toCompileTo('cruel world!');
       });
     }
+
+    it('each on Map and @key', function() {
+      var goodbyes = new Map();
+      goodbyes.set('first', 'goodbye');
+      goodbyes.set('second', 'Goodbye');
+      goodbyes.set('last', 'GOODBYE');
+      var goodbyesEmpty = new Map();
+      var string =
+        '{{#each goodbyes}}{{@key}}. {{.}}! {{/each}}cruel {{world}}!';
+      var hash = { goodbyes: goodbyes, world: 'world' };
+
+      expectTemplate(string)
+        .withInput(hash)
+        .toCompileTo(
+          'first. goodbye! second. Goodbye! last. GOODBYE! cruel world!'
+        );
+
+      expectTemplate(string)
+        .withInput({ goodbyes: goodbyesEmpty, world: 'world' })
+        .toCompileTo('cruel world!');
+    });
   });
 
   describe('#log', function() {
